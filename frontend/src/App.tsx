@@ -1,29 +1,22 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import TaskComponent from './components/taskComponent/TaskComponent'
 import Searching from './components/searching/Searching'
 import { ITask } from './types/Types'
+import { useGetAllTasksQuery } from './store/api/task.api'
+// require('dotenv').config()
 
 const App = () => {
   const [searchValue, setSearchValue] = useState<string>('')
-  const tasks: ITask[] = [
-    {
-      "id": 1,
-      "description": "ABCD"
-    },
-    {
-      "id": 2,
-      "description": "DCBA"
-    },
-    {
-      "id": 3,
-      "description": "BACD"
-    },
-    {
-      "id": 4,
-      "description": "AAAA"
-    }
-  ]
+  const {data, isLoading, isError, error} = useGetAllTasksQuery()
+  
+  const [tasks, setTasks] = useState<ITask[]>([])
 
+    useEffect(() => {
+      if(!data) return
+      setTasks(data)
+    }, [data])
+
+    console.log('Fetched tasks:', data);
   return (
     <div className='bg-[#000] w-full h-screen flex justify-center items-center text-[#555555]'>
       <div className='bg-[#161618] border border-[#555555] max-w-[500px] mx-auto w-full rounded-[20px] flex flex-col'>
