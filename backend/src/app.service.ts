@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from './prisma.service';
-import { dtoCreateTask } from './app.dto';
+import { dtoCreateTask, dtoDeleteChangeTask } from './app.dto';
 
 @Injectable()
 export class AppService {
@@ -27,13 +27,19 @@ export class AppService {
     return task
   }
 
-  async delete (id: string) {
-    const task = await this.prisma.task.delete({
+  async deleteChange (dto: dtoDeleteChangeTask) {
+    const task = await this.prisma.task.deleteMany({
       where: {
-        id: +id
-      }
+        id: {
+              in: dto.id,
+          },
+      },
     })
     return task
   }
 
+  async deleteAll () {
+    const task = await this.prisma.task.deleteMany()
+    return task
+  }
 }

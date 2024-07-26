@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { AppService } from './app.service';
-import { dtoCreateTask } from './app.dto';
+import { dtoCreateTask, dtoDeleteChangeTask } from './app.dto';
 
 @Controller()
 export class AppController {
@@ -21,8 +21,13 @@ export class AppController {
     return this.appService.create(dto)
   }
 
-  @Delete(':id')
-  async delete (@Param('id') id: string) {
-    return this.appService.delete(id)
+  @Delete()
+  async deleteChange (@Body() dto: dtoDeleteChangeTask) {
+    return this.appService.deleteChange(dto)
+  }
+
+  @Delete('/all')
+  async deleteAll () {
+    return this.appService.deleteAll()
   }
 } 
