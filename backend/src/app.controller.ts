@@ -25,4 +25,4 @@ export class AppController {
   async delete (@Param('id') id: string) {
     return this.appService.delete(id)
   }
-}
+} 
