@@ -24,7 +24,14 @@ export const taskSlice = createSlice({
             state.arrTasks.splice(0)
         },
         addDeleteChangeTask: (state, action) => {
-            state.deleteChangeTasks.push(action.payload)
+            const delChange = state.deleteChangeTasks
+            if(delChange.length > 0){
+                delChange.map((item, index) => {
+                    if(item === action.payload) delChange.splice(index)
+                    else delChange.push(action.payload)
+                })
+            }
+            else delChange.push(action.payload)
         },
         deleteChangeTask: (state) => {
             state.arrTasks = state.arrTasks.filter(item => !state.deleteChangeTasks.includes(item.id))
@@ -32,6 +39,8 @@ export const taskSlice = createSlice({
         }
     }
 })
+
+
 
 export const { createTask, deleteAllTask, addDeleteChangeTask, deleteChangeTask } = taskSlice.actions
 

@@ -15,7 +15,7 @@ const App = () => {
   const [apiDeleteChangeTask] = useDeleteChangeTaskMutation()
 
   const [searchValue, setSearchValue] = useState<string>('')
-  const {data, isLoading, isError, error} = useGetAllTasksQuery()
+  const {data} = useGetAllTasksQuery()
 
   useEffect(() => {
     if(!data || data.length === 0) return
@@ -23,11 +23,13 @@ const App = () => {
   }, [data])
 
   const funcDeleteAllTask = () => {
+    if(!tasks.arrTasks.length) return
     dispatch(deleteAllTask())
     apiDeleteAllTask()
   }
 
   const funcDeleteChangeTask = () => {
+    if(!tasks.deleteChangeTasks.length) return
     dispatch(deleteChangeTask())
     apiDeleteChangeTask(tasks.deleteChangeTasks)
   }
@@ -48,7 +50,7 @@ const App = () => {
           }
         </div>
         <div className='border-t-[1px] border-[#555555] p-[20px] flex justify-between items-center'>
-          <div>{data?.length} tasks</div>
+          <div>{tasks.arrTasks.length} tasks</div>
           <div>
             <button onClick={funcDeleteAllTask} className='border border-[#952525] text-[#952525] px-[15px] py-[8px] text-[14px] rounded-[5px] mr-[10px]'>Delete all</button>
             <button onClick={funcDeleteChangeTask} className='border border-[#952525] text-[#952525] px-[15px] py-[8px] text-[14px] rounded-[5px]'>Delete</button>

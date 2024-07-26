@@ -20,17 +20,29 @@ const Searching: FC<ITaskComponent> = ({searchValue, setSearchValue}) => {
         setSearchValue(e.currentTarget.value)
     }
 
+
     async function funcOnCreateNewTask(value: string) {
-        dispatch(createTask({id: tasks.arrTasks.length + 1, description: value}))
-        const task = await addTask({id: tasks.arrTasks.length + 1 , description: value})
-        setSearchValue('')
-        if(!task) return error
-        else return task
+        if(!searchValue.length) return 
+        if(tasks.arrTasks.length === 0) {
+            dispatch(createTask({id: tasks.arrTasks.length + 1, description: value}))
+            await addTask({id: tasks.arrTasks.length + 1 , description: value})
+            setSearchValue('')
+        }else {
+            const id = tasks.arrTasks[tasks.arrTasks.length - 1].id + 1
+            dispatch(createTask({id: id, description: value}))
+            await addTask({id: id , description: value})
+            setSearchValue('')
+        }
     }
 
+    function funcOnKeyEnter (event: React.KeyboardEvent<HTMLInputElement>) {
+        if(event.code === 'Enter') {
+            funcOnCreateNewTask(searchValue)
+        }
+    }
 
     return (
-    <div className='p-[15px] border-b border-[#555555] flex justify-between'>
+    <div className='p-[15px] border-b border-[#555555] flex justify-between' onKeyDown={funcOnKeyEnter}>
         <div className='flex gap-[10px] w-full'>
             <img src="/images/search.svg" alt="" />
             <input onChange={funcOnChange} value={searchValue} className='w-full h-[30px] bg-transparent placeholder:text-[#555555] outline-0' placeholder='Search...' type="text" />
