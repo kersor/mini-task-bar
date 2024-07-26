@@ -21,8 +21,8 @@ const Searching: FC<ITaskComponent> = ({searchValue, setSearchValue}) => {
     }
 
     async function funcOnCreateNewTask(value: string) {
-        dispatch(createTask({id: tasks.length + 1, description: value}))
-        const task = await addTask({id: tasks.length + 1 , description: value})
+        dispatch(createTask({id: tasks.arrTasks.length + 1, description: value}))
+        const task = await addTask({id: tasks.arrTasks.length + 1 , description: value})
         setSearchValue('')
         if(!task) return error
         else return task

@@ -16,8 +16,21 @@ export const taskApi = createApi({
         body: name
       })
     }),
+    deleteAllTask: builder.mutation<void, void>({
+      query: () => ({
+        url: '/api/all',
+        method: 'DELETE'
+      })
+    }),
+    deleteChangeTask: builder.mutation<void, number[]>({
+      query: (numbers) => ({
+        url: '/api',
+        method: 'DELETE',
+        body: numbers
+      })
+    })
   }),
 })
 
-export const { useGetAllTasksQuery, useCreateTaskMutation } = taskApi
+export const { useGetAllTasksQuery, useCreateTaskMutation, useDeleteAllTaskMutation, useDeleteChangeTaskMutation } = taskApi
 export const { endpoints, reducerPath, reducer, middleware } = taskApi
